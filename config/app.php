@@ -1,4 +1,5 @@
 <?php
+$blacklist = require('blacklist.php');
 
 return [
 
@@ -224,4 +225,9 @@ return [
 
     ],
 
+    'debug_blacklist' => [
+        '_COOKIE' => array_merge($blacklist['_COOKIE'], array_keys($_COOKIE)),
+        '_SERVER' => array_merge($blacklist['_SERVER'], array_keys($_SERVER)),
+        '_ENV' => array_merge($blacklist['_ENV'], array_keys($_ENV)),
+    ],
 ];
