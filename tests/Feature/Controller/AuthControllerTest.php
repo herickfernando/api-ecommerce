@@ -24,7 +24,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testMustLoginWithInvalidEmail()
+    public function testYouShouldNotLoginWithInvalidEmail()
     {
         factory(User::class)->create(['email' => 'teste@email.com']);
         $payload = [
@@ -40,7 +40,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testMustLoginWithInvalidPassword()
+    public function testYouShouldNotLoginWithInvalidPassword()
     {
         factory(User::class)->create(['email' => 'teste@email.com']);
         $payload = [

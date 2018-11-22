@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,10 +12,10 @@ use Illuminate\Http\Request;
 */
 
 Route
-    ::middleware('jwt.auth')
+    ::middleware(['jwt.auth'])
     ->prefix('backoffice')
     ->group(function () {
-
-});
+        Route::get('/categories', 'Category\CategoryController@getAll');
+    });
 
 Route::post('/auth', 'Auth\AuthController');

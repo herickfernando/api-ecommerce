@@ -20,6 +20,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, Uuid, SoftDeletes;
 
+    public $incrementing = false;
+
     /**
      * The attributes that should be hidden for arrays.
      *
