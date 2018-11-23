@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 class CategoryController extends Controller
 {
 
-    public function getAll()
+    public function all()
     {
         return Category::all();
     }

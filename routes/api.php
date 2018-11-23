@@ -15,7 +15,9 @@ Route
     ::middleware(['jwt.auth'])
     ->prefix('backoffice')
     ->group(function () {
-        Route::get('/categories', 'Category\CategoryController@getAll');
+        Route::get('/categories/all', 'Category\CategoryController@all');
+
+        Route::apiResource('/products', 'Product\ProductController');
     });
 
 Route::post('/auth', 'Auth\AuthController');

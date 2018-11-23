@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\CRUDService;
-use Illuminate\Database\Query\Builder;
+use App\Domains\CRUDService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -33,34 +33,48 @@ class Controller extends BaseController
         }
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function index(Request $request)
     {
-        $paginate = $request->query('paginate');
-        $search = $request->query('search') ?? '';
-        $searchLike = sprintf('%%s%', $search);
+        $paginate = $request->query('per_page', 10);
 
-        $columns = $this->columnsFilter();
+        $results = $this
+            ->createQuery($request)
+            ->list($paginate);
 
-        /** @var Builder $query */
-        $query = $this
-            ->service
-            ->modelClass;
-
-        foreach ($columns as $column) {
-            $query
-                ->where($column, 'like', $searchLike)
-                ->orWhere(next($column), 'like', $searchLike);
+        if (!$request->has('per_page')) {
+            $results = $this
+                ->createQuery($request)
+                ->listWithoutPaginate();
         }
 
-        if ($request->has('paginate')) {
-            return $query->paginate($paginate);
-        }
-
-        return $query::all();
+        return response($results);
     }
 
-    public function columnsFilter()
+    protected function getOrderBy(Request $request)
     {
-        return $this->service->columnsFilter();
+        return $request
+                ->get(CRUDService::ORDER_BY) ?? 'id';
+    }
+
+    protected function isDescending(Request $request)
+    {
+        return $request
+            ->has(CRUDService::DESCENDING);
+    }
+
+    /**
+     * @param Request $request
+     * @return CRUDService
+     */
+    protected function createQuery(Request $request)
+    {
+        return $this
+            ->service
+            ->filter($request->get('search') ?? '')
+            ->orderBy($this->getOrderBy($request), $this->isDescending($request));
     }
 }

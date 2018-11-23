@@ -7,12 +7,13 @@ use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
+    const ENDPOINT = 'api/backoffice/categories/all';
 
     public function testMustListAllCategories()
     {
         factory(Category::class, 5)->create();
         $this
-            ->json('GET', 'api/backoffice/categories')
+            ->json('GET', self::ENDPOINT)
             ->assertSuccessful()
             ->assertJsonStructure([
                 0 => [
