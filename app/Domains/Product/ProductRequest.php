@@ -3,6 +3,7 @@
 namespace App\Domains\Product;
 
 use App\Domains\FormRequest;
+use App\Http\Validations\Base64Image;
 
 class ProductRequest extends FormRequest
 {
@@ -12,6 +13,10 @@ class ProductRequest extends FormRequest
             'name' => 'required',
             'price' => 'required|numeric',
             'category_id' => 'exists:categories,id',
+            'images' => [
+                'array',
+                new Base64Image(),
+            ],
         ];
     }
 

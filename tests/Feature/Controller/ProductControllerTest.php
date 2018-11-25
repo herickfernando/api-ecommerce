@@ -4,6 +4,9 @@ namespace Tests\Feature\Controller;
 
 use App\Domains\Category\Category;
 use App\Domains\Product\Product;
+use App\Domains\Product\ProductImage\ProductImage;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -204,5 +207,92 @@ class ProductControllerTest extends TestCase
 
         $productInDatabase = Product::find($product->id);
         self::assertNull($productInDatabase);
+    }
+
+    public function testMustRegisterProductWithImages()
+    {
+        /** @var Category $category */
+        $category = factory(Category::class)->create(['name' => 'Category Test']);
+        $imageBase64Json = file_get_contents(base_path('tests/Mock/base64Image.json'));
+        $imageBase64 = json_decode($imageBase64Json);
+        $payload = [
+            'name' => 'Product Test',
+            'description' => 'Product of Test',
+            'price' => 150.00,
+            'category_id' => $category->id,
+            'images' => [
+                $imageBase64->base64,
+            ],
+        ];
+        $this
+            ->json('POST', self::ENDPOINT, $payload)
+            ->assertStatus(201)
+            ->assertJsonStructure(['id']);
+    }
+
+    public function testMustRegisterProductWithTextFileInTheImages()
+    {
+        $this->withExceptionHandling();
+        /** @var Category $category */
+        $category = factory(Category::class)->create(['name' => 'Category Test']);
+        $textBase64Json = file_get_contents(base_path('tests/Mock/base64Text.json'));
+        $textBase64 = json_decode($textBase64Json);
+        $payload = [
+            'name' => 'Product Test',
+            'description' => 'Product of Test',
+            'price' => 150.00,
+            'category_id' => $category->id,
+            'images' => [
+                $textBase64->base64,
+            ],
+        ];
+        $this
+            ->json('POST', self::ENDPOINT, $payload)
+            ->assertStatus(422)
+            ->assertJson([
+                'errors' => [
+                    'images' => [
+                        'Sent files are not images.',
+                    ],
+                ],
+            ]);
+    }
+
+    public function testMustRegisterProductWithStringImages()
+    {
+        $this->withExceptionHandling();
+        /** @var Category $category */
+        $category = factory(Category::class)->create(['name' => 'Category Test']);
+        $imageBase64Json = file_get_contents(base_path('tests/Mock/base64Image.json'));
+        $imageBase64 = json_decode($imageBase64Json);
+        $payload = [
+            'name' => 'Product Test',
+            'description' => 'Product of Test',
+            'price' => 150.00,
+            'category_id' => $category->id,
+            'images' => $imageBase64->base64,
+        ];
+        $this
+            ->json('POST', self::ENDPOINT, $payload)
+            ->assertStatus(422)
+            ->assertJson([
+                'errors' => [
+                    'images' => [
+                        'The images must be an array.',
+                    ],
+                ],
+            ]);
+    }
+
+    protected function tearDown()
+    {
+        Product
+            ::withTrashed()
+            ->get()
+            ->each(function (Product $product) {
+                $directory = sprintf('public/upload/product/%s', $product->id);
+                Storage::deleteDirectory($directory);
+            });
+        parent::tearDown();
     }
 }

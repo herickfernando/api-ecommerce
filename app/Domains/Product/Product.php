@@ -5,6 +5,7 @@ namespace App\Domains\Product;
 use App\Domains\Category\Category;
 use App\Domains\DomainModel;
 use App\Domains\Filters;
+use App\Domains\Product\ProductImage\ProductImage;
 
 /**
  * Class Product
@@ -16,6 +17,7 @@ use App\Domains\Filters;
  * @property string   $category_id
  * @property string   $category_name
  * @property Category $category
+ * @property ProductImage[] $images
  */
 class Product extends DomainModel
 {
@@ -37,5 +39,12 @@ class Product extends DomainModel
     public function scopeFilter($query, Filters $filters)
     {
         $filters->apply($query);
+    }
+
+    public function images()
+    {
+        return $this
+            ->hasMany(ProductImage::class)
+            ->with('image');
     }
 }

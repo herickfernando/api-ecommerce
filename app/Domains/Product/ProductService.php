@@ -3,19 +3,28 @@
 namespace App\Domains\Product;
 
 use App\Domains\CRUDService;
+use App\Domains\Product\ProductImage\ProductImageService;
 
 class ProductService extends CRUDService
 {
     public $modelClass = Product::class;
 
-    public function columnsFilter(): array
+    public function create($data)
     {
-        return [];
+        /** @var Product $product */
+        $product = parent::create($data);
+
+        if (isset($data['images'])) {
+            $productImageService = new ProductImageService();
+            $productImageService->create($product, $data['images']);
+        }
+
+        return $product;
     }
 
     /**
      * @param Product $model
-     * @param array $data
+     * @param array   $data
      */
     protected function fill(&$model, array $data)
     {

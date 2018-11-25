@@ -8,10 +8,10 @@ use App\Domains\DomainModel;
  * Class Image
  * @package App\Domains\Image
  * @property string $id
- * @property string $product_id
  * @property string $name
- * @property string $uri
+ * @property string $path
  */
 class Image extends DomainModel
 {
+    //
 }
