@@ -9,24 +9,17 @@ use App\Domains\Filters;
 /**
  * Class Product
  * @package App\Domains\Product
- * @property string $id
- * @property string $name
- * @property string $description
- * @property double $price
- * @property string $category_id
- * @property string $category_name
+ * @property string   $id
+ * @property string   $name
+ * @property string   $description
+ * @property double   $price
+ * @property string   $category_id
+ * @property string   $category_name
  * @property Category $category
  */
 class Product extends DomainModel
 {
-    protected $appends = [
-        'category_name'
-    ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+    protected $appends = ['category_name'];
 
     public function getCategoryNameAttribute()
     {
@@ -34,6 +27,11 @@ class Product extends DomainModel
             ->category()
             ->first()
             ->name;
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function scopeFilter($query, Filters $filters)

@@ -14,5 +14,4 @@ use App\Domains\DomainModel;
  */
 class Image extends DomainModel
 {
-
 }

@@ -13,7 +13,13 @@ class AuthService
     public function authenticate($credentials)
     {
         if (!$token = JWTAuth::attempt($credentials)) {
-            return response(['errors' => 'invalid_credentials'], 401);
+            return response([
+                'errors' => [
+                    'invalid_credentials' => [
+                        0 => 'E-mail or password is incorrect.',
+                    ],
+                ],
+            ], 401);
         }
 
         return response(compact('token'));

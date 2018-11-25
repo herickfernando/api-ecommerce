@@ -11,10 +11,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 /**
  * Class User
  * @package App\Domains\User
- * @property string name
- * @property string email
- * @property string password
- * @property string remember_token
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -28,7 +28,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**

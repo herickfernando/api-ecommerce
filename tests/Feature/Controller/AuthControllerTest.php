@@ -36,7 +36,11 @@ class AuthControllerTest extends TestCase
             ->post('api/auth', $payload)
             ->assertStatus(401)
             ->assertJson([
-                'errors' => 'invalid_credentials',
+                'errors' => [
+                    'invalid_credentials' => [
+                        0 => 'E-mail or password is incorrect.',
+                    ],
+                ],
             ]);
     }
 
@@ -52,7 +56,11 @@ class AuthControllerTest extends TestCase
             ->post('api/auth', $payload)
             ->assertStatus(401)
             ->assertJson([
-                'errors' => 'invalid_credentials',
+                'errors' => [
+                    'invalid_credentials' => [
+                        0 => 'E-mail or password is incorrect.',
+                    ],
+                ],
             ]);
     }
 }

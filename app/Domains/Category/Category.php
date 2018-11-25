@@ -12,5 +12,4 @@ use App\Domains\DomainModel;
  */
 class Category extends DomainModel
 {
-
 }
