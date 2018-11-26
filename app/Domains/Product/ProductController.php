@@ -2,9 +2,10 @@
 
 namespace App\Domains\Product;
 
+use App\Domains\Product\ProductImage\ProductImage;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ProductController
@@ -21,17 +22,19 @@ class ProductController extends Controller
                 ->create($request->toArray());
             return response(['id' => $product->id], Response::HTTP_CREATED);
         } catch (\Exception $exception) {
-            return \response(['errors' => [
-                'error' => [
-                    $exception->getMessage(),
+            return \response([
+                'errors' => [
+                    'error' => [
+                        $exception->getMessage(),
+                    ]
                 ]
-            ]], Response::HTTP_UNPROCESSABLE_ENTITY);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
     public function show(Product $product)
     {
-        return response($product);
+        return response($product->load('images'));
     }
 
     public function update(Product $product, ProductRequest $request)
@@ -42,11 +45,13 @@ class ProductController extends Controller
                 ->update($product, $request->toArray());
             return response(['id' => $product->id]);
         } catch (\Exception $exception) {
-            return \response(['errors' => [
-                'error' => [
-                    $exception->getMessage(),
+            return \response([
+                'errors' => [
+                    'error' => [
+                        $exception->getMessage(),
+                    ]
                 ]
-            ]], Response::HTTP_UNPROCESSABLE_ENTITY);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 

@@ -33,4 +33,17 @@ class ProductService extends CRUDService
         $model->price = $data['price'];
         $model->category_id = $data['category_id'];
     }
+
+    public function update($model, $data)
+    {
+        /** @var Product $product */
+        $product = parent::update($model, $data);
+
+        if (isset($data['images'])) {
+            $productImageService = new ProductImageService();
+            $productImageService->create($product, $data['images']);
+        }
+
+        return $product;
+    }
 }

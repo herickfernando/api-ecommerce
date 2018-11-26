@@ -22,6 +22,9 @@ use App\Domains\Product\ProductImage\ProductImage;
 class Product extends DomainModel
 {
     protected $appends = ['category_name'];
+    protected $casts = [
+        'price' => 'double',
+    ];
 
     public function getCategoryNameAttribute()
     {
