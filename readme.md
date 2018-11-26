@@ -1,3 +1,46 @@
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+
+```
+Docker and docker-compose
+```
+
+### Installing
+
+Step by step
+
+```
+docker-compose up -d
+```
+
+```
+docker-compose exec app bash
+```
+
+```
+composer install
+```
+
+```
+php artisan migrate --seed
+```
+
+## Running the tests
+
+```
+docker-compose exec app bash
+```
+All tests
+
+```
+vendor/bin/phpunit 
+```
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
@@ -34,7 +77,6 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - **[Vehikl](https://vehikl.com/)**
 - **[Tighten Co.](https://tighten.co)**
 - **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
 - **[Cubet Techno Labs](https://cubettech.com)**
 - **[British Software Development](https://www.britishsoftware.co)**
 - **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
@@ -52,8 +94,6 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - [iMi digital](https://www.imi-digital.de/)
 - [Earthlink](https://www.earthlink.ro/)
 - [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
 
 ## Contributing
 
