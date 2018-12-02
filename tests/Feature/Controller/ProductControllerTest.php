@@ -178,6 +178,7 @@ class ProductControllerTest extends TestCase
 
     public function testYouMustChangeTheInformationForAProduct()
     {
+        $this->withExceptionHandling();
         /** @var Product $product */
         $product = factory(Product::class)->create();
 
@@ -221,7 +222,9 @@ class ProductControllerTest extends TestCase
             'price' => 150.00,
             'category_id' => $category->id,
             'images' => [
-                $imageBase64->base64,
+                [
+                    'image_url' => $imageBase64->base64,
+                ],
             ],
         ];
         $this
@@ -243,7 +246,9 @@ class ProductControllerTest extends TestCase
             'price' => 150.00,
             'category_id' => $category->id,
             'images' => [
-                $textBase64->base64,
+                [
+                    'image_url' => $textBase64->base64,
+                ],
             ],
         ];
         $this

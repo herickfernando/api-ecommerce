@@ -29,8 +29,10 @@ class Base64Image implements Rule
         if (is_array($value)) {
             $this->errorMessage = 'Sent files are not images.';
             foreach ($value as $item) {
-                $decoded = $this->decodeBase64($item);
-                $validMime = $this->validaMime($decoded);
+                if (!isset($item['id'])) {
+                    $decoded = $this->decodeBase64($item['image_url']);
+                    $validMime = $this->validaMime($decoded);
+                }
                 if (!$validMime) {
                     return $validMime;
                 }

@@ -13,5 +13,12 @@ use App\Domains\DomainModel;
  */
 class Image extends DomainModel
 {
-    //
+    protected $appends = [
+        'image_url',
+    ];
+
+    public function getImageUrlAttribute()
+    {
+        return asset($this->path);
+    }
 }
