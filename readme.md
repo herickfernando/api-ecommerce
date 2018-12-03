@@ -45,6 +45,17 @@ All tests
 vendor/bin/phpunit 
 ```
 
+##Synchronize CSVs with products
+
+```
+docker-compose exec app bash
+```
+
+Command for synchronize
+```
+php artisan sync:products-csv
+```
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
