@@ -17,6 +17,8 @@ Route
     ->group(function () {
         Route::get('/categories/all', 'Category\CategoryController@all');
 
+        Route::get('/products/sync', 'Product\ProductController@synchronizeCSV');
+
         Route::apiResource('/products', 'Product\ProductController');
 
         Route::post('/products/upload-csv', 'Product\ProductController@uploadCSV');

@@ -4,6 +4,7 @@ namespace App\Domains\CSV;
 
 use App\Domains\CRUDService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class CSVService extends CRUDService
@@ -31,7 +32,14 @@ class CSVService extends CRUDService
 
     private function getPath()
     {
-        return storage_path('app/upload/csv/');
+        return 'app/upload/csv/';
+    }
+
+    private function moveFileForFolder($fileName, $uploadedFile)
+    {
+        $storagePath = storage_path($this->getPath());
+        Storage::makeDirectory($storagePath);
+        $uploadedFile->move($storagePath, $fileName);
     }
 
     /**
@@ -42,12 +50,5 @@ class CSVService extends CRUDService
     {
         $model->name = $data['name'];
         $model->path = $this->getPath();
-    }
-
-    private function moveFileForFolder($fileName, $uploadedFile)
-    {
-        $storagePath = $this->getPath();
-        Storage::makeDirectory($storagePath);
-        $uploadedFile->move($storagePath, $fileName);
     }
 }
