@@ -2,10 +2,10 @@
 
 namespace App\Domains\Product;
 
-use App\Domains\Product\ProductImage\ProductImage;
+use App\Domains\CSV\CSVRequest;
+use App\Domains\CSV\CSVService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ProductController
@@ -60,5 +60,11 @@ class ProductController extends Controller
         $product->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function uploadCSV(CSVRequest $request)
+    {
+        $service = new CSVService();
+        return $service->create($request->toArray());
     }
 }

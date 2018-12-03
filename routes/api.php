@@ -18,6 +18,8 @@ Route
         Route::get('/categories/all', 'Category\CategoryController@all');
 
         Route::apiResource('/products', 'Product\ProductController');
+
+        Route::post('/products/upload-csv', 'Product\ProductController@uploadCSV');
     });
 
 Route::post('/auth', 'Auth\AuthController');

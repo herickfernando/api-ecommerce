@@ -13,6 +13,7 @@ class ProductRequest extends FormRequest
             'name' => 'required',
             'price' => 'required|numeric',
             'category_id' => 'exists:categories,id',
+            'description' => 'required',
             'images' => [
                 'array',
                 new Base64Image(),
