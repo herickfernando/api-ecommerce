@@ -45,7 +45,7 @@ All tests
 vendor/bin/phpunit 
 ```
 
-##Synchronize CSVs with products
+## Synchronize CSVs with products
 
 ```
 docker-compose exec app bash
