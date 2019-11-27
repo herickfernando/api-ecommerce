@@ -10,8 +10,8 @@ class UsersSeeder extends Seeder
     {
         $user = new User();
         $user->name = 'Developer';
-        $user->email = 'developer@devsquad.com';
-        $user->password = bcrypt('devsquad');
+        $user->email = 'developer@test.com';
+        $user->password = bcrypt('test@00');
         $user->save();
     }
 }
